@@ -1,0 +1,510 @@
+{
+  "info": {
+    "name": "RAG Platform API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://localhost:8000" },
+    { "key": "access_token", "value": "" },
+    { "key": "kb_id", "value": "" },
+    { "key": "doc_id", "value": "" },
+    { "key": "faq_id", "value": "" },
+    { "key": "tenant_id", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/auth/register/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"username\": \"user\",\n  \"tenant_id\": \"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Google Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.access) pm.collectionVariables.set('access_token', json.access);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/auth/google/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_token\": \"<google id_token>\",\n  \"tenant_id\": \"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Register and Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.access) pm.collectionVariables.set('access_token', json.access);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/auth/register-and-login/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"user@example.com\",\n  \"password\": \"password123\",\n  \"tenant_id\": \"\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.access) pm.collectionVariables.set('access_token', json.access);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/auth/login/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"fred.feng.work@gmail.com\",\n  \"password\": \"123456\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/auth/refresh/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refresh\": \"<refresh_token>\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/auth/me/"
+          }
+        },
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/auth/me/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"new_username\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Knowledge Bases",
+      "item": [
+        {
+          "name": "List Knowledge Bases",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/"
+          }
+        },
+        {
+          "name": "Create Knowledge Base",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.id) pm.collectionVariables.set('kb_id', json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"My Knowledge Base\",\n  \"description\": \"Test KB\",\n  \"kb_type\": \"\",\n  \"embedding_model\": \"text-embedding-3-small\",\n  \"chunk_size\": 512,\n  \"chunk_overlap\": 64,\n  \"retrieval_top_k\": 5\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Knowledge Base",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/"
+          }
+        },
+        {
+          "name": "Update Knowledge Base",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated KB Name\",\n  \"retrieval_top_k\": 8\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Knowledge Base",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/"
+          }
+        },
+        {
+          "name": "Rebuild Knowledge Base (switch embedding model)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/rebuild/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"embedding_model\": \"text-embedding-3-large\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tenant Settings",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/tenants/settings/"
+          }
+        },
+        {
+          "name": "Update Settings",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/tenants/settings/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"embedding_model\": \"text-embedding-3-small\",\n  \"llm_model\": \"claude-sonnet-4-6\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Documents",
+      "item": [
+        {
+          "name": "List Documents",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": {
+              "raw": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/?page=1",
+              "query": [{ "key": "page", "value": "1" }]
+            }
+          }
+        },
+        {
+          "name": "Upload File",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.id) pm.collectionVariables.set('doc_id', json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/upload/",
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "file", "type": "file", "src": "" }]
+            }
+          }
+        },
+        {
+          "name": "Import URL (Static)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/import-url/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"render_mode\": \"static\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Import URL (Dynamic - Selenium)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/import-url/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://example.com\",\n  \"render_mode\": \"selenium\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Get Document",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/{{doc_id}}/"
+          }
+        },
+        {
+          "name": "Delete Document",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/{{doc_id}}/"
+          }
+        },
+        {
+          "name": "Reindex Document",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/{{doc_id}}/reindex/"
+          }
+        },
+        {
+          "name": "Get Document Chunks",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/{{doc_id}}/chunks/"
+          }
+        },
+        {
+          "name": "Get Document Content",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/documents/{{doc_id}}/content/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "FAQ",
+      "item": [
+        {
+          "name": "List FAQ",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/faq/"
+          }
+        },
+        {
+          "name": "Create FAQ",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.id) pm.collectionVariables.set('faq_id', json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/faq/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"question\": \"What is this product?\",\n  \"answer\": \"This is a RAG platform for building knowledge bases.\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Bulk Import FAQ",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/faq/bulk-import/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"items\": [\n    { \"question\": \"Q1?\", \"answer\": \"A1\" },\n    { \"question\": \"Q2?\", \"answer\": \"A2\" }\n  ]\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete FAQ",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/knowledge-bases/{{kb_id}}/faq/{{faq_id}}/"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Retrieval & RAG",
+      "item": [
+        {
+          "name": "Search",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/retrieval/search/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"your search query\",\n  \"knowledge_base_id\": \"{{kb_id}}\",\n  \"top_k\": 5,\n  \"score_threshold\": 0.0\n}"
+            }
+          }
+        },
+        {
+          "name": "Prompt (context only)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/rag/prompt/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"your question\",\n  \"knowledge_base_id\": \"{{kb_id}}\",\n  \"top_k\": 5\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "Answer (RAG)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{access_token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "url": "{{base_url}}/api/v1/rag/answer/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"your question\",\n  \"knowledge_base_id\": \"{{kb_id}}\",\n  \"top_k\": 5,\n  \"llm_model\": \"claude-sonnet-4-6\",\n  \"system_prompt\": \"You are a helpful assistant.\"\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Public (no auth)",
+      "item": [
+        {
+          "name": "Public Prompt",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{base_url}}/api/v1/rag/public/prompt/",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"your question\",\n  \"knowledge_base_id\": \"{{kb_id}}\",\n  \"tenant_id\": \"{{tenant_id}}\",\n  \"top_k\": 5\n}"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Audit",
+      "item": [
+        {
+          "name": "Query Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/audit/queries/"
+          }
+        },
+        {
+          "name": "Retrieval Logs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{access_token}}" }],
+            "url": "{{base_url}}/api/v1/audit/retrieval/"
+          }
+        }
+      ]
+    }
+  ]
+}

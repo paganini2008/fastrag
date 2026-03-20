@@ -1,0 +1,46 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.84.0",
+    "beautifulsoup4>=4.14.3",
+    "dependency-injector>=4.48.3",
+    "django>=6.0.3",
+    "django-cors-headers>=4.9.0",
+    "django-filter>=25.2",
+    "djangorestframework>=3.16.1",
+    "djangorestframework-simplejwt>=5.5.1",
+    "drf-spectacular>=0.29.0",
+    "google-auth>=2.49.1",
+    "llama-index-core>=0.14.17",
+    "llama-index-embeddings-openai>=0.6.0",
+    "llama-index-llms-anthropic>=0.11.0",
+    "llama-index-llms-openai>=0.7.2",
+    "llama-index-readers-file>=0.6.0",
+    "llama-index-vector-stores-qdrant>=0.10.0",
+    "lxml>=6.0.2",
+    "markdown2>=2.5.5",
+    "minio>=7.2.20",
+    "openai>=2.26.0",
+    "openpyxl>=3.1.5",
+    "playwright>=1.58.0",
+    "psycopg2-binary>=2.9.11",
+    "pypdf>=6.8.0",
+    "python-decouple>=3.8",
+    "python-docx>=1.2.0",
+    "python-pptx>=1.0.2",
+    "qdrant-client>=1.17.0",
+    "redis>=7.3.0",
+    "selenium>=4.41.0",
+    "tiktoken>=0.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "factory-boy>=3.3.3",
+    "pytest>=9.0.2",
+    "pytest-django>=4.12.0",
+    "pytest-mock>=3.15.1",
+]

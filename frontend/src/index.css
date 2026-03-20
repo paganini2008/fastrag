@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-surface: #0f0f1a;
+  --color-surface-2: #1a1a2e;
+  --color-surface-3: #16213e;
+  --color-border: #2a2a4a;
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #0f0f1a;
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1a1a2e;
+}
+::-webkit-scrollbar-thumb {
+  background: #4f46e5;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6366f1;
+}
+
+/* Ant Design dark theme overrides */
+.ant-layout {
+  background: transparent !important;
+}
+
+.ant-layout-sider {
+  background: #1a1a2e !important;
+  border-right: 1px solid #2a2a4a !important;
+}
+
+.ant-menu-dark {
+  background: transparent !important;
+}
+
+.ant-menu-dark .ant-menu-item-selected {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+}
+
+.ant-layout-header {
+  background: rgba(15, 15, 26, 0.9) !important;
+  border-bottom: 1px solid #2a2a4a !important;
+  backdrop-filter: blur(12px);
+}
+
+.ant-layout-content {
+  background: #0f0f1a !important;
+}
+
+.ant-card {
+  background: #1a1a2e !important;
+  border: 1px solid #2a2a4a !important;
+  border-radius: 12px !important;
+}
+
+.ant-card-head {
+  background: transparent !important;
+  border-bottom: 1px solid #2a2a4a !important;
+  color: #e2e8f0 !important;
+}
+
+.ant-table {
+  background: transparent !important;
+}
+
+.ant-table-thead > tr > th {
+  background: #16213e !important;
+  color: #94a3b8 !important;
+  border-bottom: 1px solid #2a2a4a !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+}
+
+.ant-table-tbody > tr > td {
+  background: transparent !important;
+  border-bottom: 1px solid #1e1e3a !important;
+  color: #e2e8f0 !important;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background: #16213e !important;
+}
+
+.ant-input,
+.ant-input-affix-wrapper,
+.ant-select-selector,
+.ant-textarea {
+  background: #16213e !important;
+  border-color: #2a2a4a !important;
+  color: #e2e8f0 !important;
+  border-radius: 8px !important;
+}
+
+.ant-input:focus,
+.ant-input-affix-wrapper:focus,
+.ant-input-affix-wrapper-focused,
+.ant-select-focused .ant-select-selector {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2) !important;
+}
+
+.ant-input::placeholder,
+.ant-textarea::placeholder {
+  color: #4a5568 !important;
+}
+
+.ant-btn-primary {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+  border: none !important;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4) !important;
+  transition: all 0.2s !important;
+}
+
+.ant-btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.5) !important;
+  opacity: 0.95 !important;
+}
+
+.ant-btn:not(.ant-btn-primary):not(.ant-btn-dangerous) {
+  background: #16213e !important;
+  border-color: #2a2a4a !important;
+  color: #e2e8f0 !important;
+}
+
+.ant-btn:not(.ant-btn-primary):hover {
+  border-color: #6366f1 !important;
+  color: #6366f1 !important;
+}
+
+.ant-modal-content {
+  background: #1a1a2e !important;
+  border: 1px solid #2a2a4a !important;
+}
+
+.ant-modal-header {
+  background: transparent !important;
+  border-bottom: 1px solid #2a2a4a !important;
+}
+
+.ant-modal-title {
+  color: #e2e8f0 !important;
+}
+
+.ant-form-item-label > label {
+  color: #94a3b8 !important;
+}
+
+.ant-tag {
+  border-radius: 6px !important;
+}
+
+.ant-badge-status-dot {
+  width: 8px !important;
+  height: 8px !important;
+}
+
+.ant-pagination-item {
+  background: #16213e !important;
+  border-color: #2a2a4a !important;
+}
+
+.ant-pagination-item a {
+  color: #94a3b8 !important;
+}
+
+.ant-pagination-item-active {
+  background: #4f46e5 !important;
+  border-color: #4f46e5 !important;
+}
+
+.ant-pagination-item-active a {
+  color: white !important;
+}
+
+.ant-select-dropdown {
+  background: #1a1a2e !important;
+  border: 1px solid #2a2a4a !important;
+}
+
+.ant-select-item {
+  color: #e2e8f0 !important;
+}
+
+.ant-select-item-option-active,
+.ant-select-item-option-selected {
+  background: #16213e !important;
+}
+
+.ant-tabs-tab {
+  color: #94a3b8 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #6366f1 !important;
+}
+
+.ant-tabs-ink-bar {
+  background: #6366f1 !important;
+}
+
+.ant-statistic-title {
+  color: #94a3b8 !important;
+}
+
+.ant-statistic-content {
+  color: #e2e8f0 !important;
+}
+
+.ant-dropdown-menu {
+  background: #1a1a2e !important;
+  border: 1px solid #2a2a4a !important;
+}
+
+.ant-dropdown-menu-item {
+  color: #e2e8f0 !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: #16213e !important;
+}
+
+.ant-progress-bg {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed) !important;
+}
+
+/* Glow effects */
+.glow-purple {
+  box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1, #a78bfa, #60a5fa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass card */
+.glass-card {
+  background: rgba(26, 26, 46, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(42, 42, 74, 0.8);
+  border-radius: 12px;
+}
+
+/* Animated gradient border */
+@keyframes gradient-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animated-border {
+  background: linear-gradient(90deg, #4f46e5, #7c3aed, #2563eb, #4f46e5);
+  background-size: 200% auto;
+  animation: gradient-border 3s linear infinite;
+}
+
+/* Status badges */
+.status-pending { color: #f59e0b; background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.3); }
+.status-processing { color: #3b82f6; background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); }
+.status-indexed { color: #10b981; background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3); }
+.status-failed { color: #ef4444; background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3); }
